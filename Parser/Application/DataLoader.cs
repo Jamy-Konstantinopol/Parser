@@ -41,7 +41,7 @@ namespace Parser
         /// <typeparam name="T">Тип объектов, которые будут десериализованы из значений JSON. Должен быть типом, совместимым с данными в файле.</typeparam>
         /// <param name="path">Путь к JSON-файлу, который будет прочитан и десериализован.</param>
         /// <returns>Словарь, где ключи — строки (имена объектов из JSON), а значения — объекты типа <typeparamref name="T"/>.</returns>
-        public Dictionary<string, T> GetFromJson<T>(string path)
+        public Dictionary<string, T> LoadFromJson<T>(string path)
         {
             // Чтение данных из JSON-файла
             string jsonFile = File.ReadAllText(path);
@@ -57,7 +57,7 @@ namespace Parser
         /// <typeparam name="T">Тип объектов, которые будут десериализованы из строк CSV. Должен быть типом, совместимым с данными в файле.</typeparam>
         /// <param name="path">Путь к CSV-файлу, который будет прочитан и десериализован.</param>
         /// <returns>Список объектов типа <typeparamref name="T"/>, соответствующих строкам в CSV-файле.</returns>
-        public List<T> GetFromCsv<T>(string path)
+        public List<T> LoadFromCsv<T>(string path)
         {
             // Чтение данных из CSV-файла
             using var reader = new StreamReader(path);

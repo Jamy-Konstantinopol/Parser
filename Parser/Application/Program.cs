@@ -11,13 +11,13 @@ try
     var dataLoader = new DataLoader();
 
     // Достаем данные из task.json
-    var tasks = dataLoader.GetFromJson<Parser.Task>(taskJsonPath);
+    var tasks = dataLoader.LoadFromJson<Parser.Task>(taskJsonPath);
 
     // Достаем данные из file.json
-    var taskContents = dataLoader.GetFromJson<TaskContent>(fileJsonPath);
+    var taskContents = dataLoader.LoadFromJson<TaskContent>(fileJsonPath);
 
     // Достаем данные из items.csv
-    var rewards = dataLoader.GetFromCsv<Reward>(rewardCsvPath);
+    var rewards = dataLoader.LoadFromCsv<Reward>(rewardCsvPath);
 
     // Фильтруем данные в taskContents, которых нет в tasks
     var filteredTaskContents = new TasksFilter().FilterTaskContents(taskContents, tasks);
@@ -39,8 +39,16 @@ try
     var dataSaver = new DataSaver(new JsonSavingStrategy());
     dataSaver.Save(jsonResult, resultJsonPath);
 
+    // Получаем все данные в формате list_name,object_name,reward_key,money,details,reputation,isUsed. 
+    var csvResult = DataGenerator.CreateTaskRewardList(tasks, DataGenerator.CreateRewardDictionary(taskContents, rewards));
+    csvResult.Sort((a, b) =>
+    {
+        return string.Compare(a.ListName, b.ListName, StringComparison.Ordinal);
+    });
+
+    // Сохраняем в новый файл result.csv
     dataSaver.SavingStrategy = new CsvSavingStrategy();
-    dataSaver.Save(jsonResult, resultCsvPath);
+    dataSaver.Save(csvResult, resultCsvPath);
 }
 catch (Exception ex)
 {

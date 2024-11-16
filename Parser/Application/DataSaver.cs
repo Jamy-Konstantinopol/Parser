@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Parser
@@ -14,7 +15,7 @@ namespace Parser
         /// <typeparam name="T">Тип данных, которые нужно сохранить.</typeparam>
         /// <param name="data">Данные, которые нужно сохранить.</param>
         /// <param name="path">Путь, по которому будет сохранён файл.</param>
-        void Save<T>(T data, string path);
+        void Save<T>(T data, string path) where T : IEnumerable;
     }
 
     /// <summary>
@@ -33,7 +34,7 @@ namespace Parser
             };
         }
 
-        public void Save<T>(T data, string path)
+        public void Save<T>(T data, string path) where T : IEnumerable
         {
             string json = JsonSerializer.Serialize(data, _options);
             File.WriteAllText(path, json);
@@ -45,22 +46,29 @@ namespace Parser
     /// </summary>
     public class CsvSavingStrategy : IDataSavingStrategy
     {
-        public void Save<T>(T data, string path)
+        public void Save<T>(T data, string path) where T : IEnumerable
         {
-            if (data is IEnumerable<T> enumerableData)
+            if (data == null)
+                return;
+
+            // Получаем тип первого элемента коллекции (если он есть)
+            var firstItem = data.Cast<object>().FirstOrDefault();
+            if (firstItem == null)
+                return;
+
+            // Получаем публичные свойства типа данных
+            var properties = firstItem.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            if (properties == null || properties.Length == 0)
+                return;
+
+            using (var writer = new StreamWriter(path))
             {
-                var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-                if (properties == null || properties.Length == 0)
-                    return;
-
-                using (var writer = new StreamWriter(path))
+                // Записываем значения свойств для каждого объекта
+                foreach (var item in data)
                 {
-                    foreach (var item in enumerableData)
-                    {
-                        var values = properties.Select(p => p.GetValue(item)?.ToString() ?? "");
-                        writer.WriteLine(string.Join(",", values));
-                    }
+                    var values = properties.Select(p => p.GetValue(item)?.ToString() ?? "");
+                    writer.WriteLine(string.Join(",", values));
                 }
             }
         }
@@ -89,7 +97,7 @@ namespace Parser
         /// <typeparam name="T">Тип данных, который будет сохранён.</typeparam>
         /// <param name="data">Данные, которые нужно сохранить.</param>
         /// <param name="path">Путь, по которому будет сохранён файл.</param>
-        public void Save<T>(T data, string path)
+        public void Save<T>(T data, string path) where T : IEnumerable
         {
             SavingStrategy.Save(data, path);
         }

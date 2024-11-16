@@ -36,5 +36,47 @@
 
             return result;
         }
+
+        static public List<TaskReward> CreateTaskRewardList(
+            Dictionary<string, Task> taskDictionary,
+            Dictionary<string, Reward> rewardDictionary)
+        {
+            var result = new List<TaskReward>();
+
+            foreach (var rewardPair in rewardDictionary)
+            {
+                
+
+                var filteredTaskKeys = (from task in taskDictionary
+                                              where task.Value.List != null && task.Value.List.Contains(rewardPair.Key)
+                                              select task.Key).ToList();
+
+                if (filteredTaskKeys == null || filteredTaskKeys.Count == 0)
+                {
+                    var taskReward = new TaskReward();
+                    taskReward.ListName = "";
+                    taskReward.ObjectName = rewardPair.Key;
+                    taskReward.Money = rewardPair.Value.Money;
+                    taskReward.Details = rewardPair.Value.Details;
+                    taskReward.Reputation = rewardPair.Value.Reputation;
+                    taskReward.IsUsed = false;
+                    continue;
+                }
+
+                foreach (var task in filteredTaskKeys)
+                {
+                    var taskReward = new TaskReward();
+                    taskReward.ListName = task;
+                    taskReward.ObjectName = rewardPair.Key;
+                    taskReward.Money = rewardPair.Value.Money;
+                    taskReward.Details = rewardPair.Value.Details;
+                    taskReward.Reputation = rewardPair.Value.Reputation;
+                    taskReward.IsUsed = true;
+                    result.Add(taskReward);
+                }
+            }
+
+            return result;
+        }
     }
 }
