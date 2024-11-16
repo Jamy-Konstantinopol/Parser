@@ -14,9 +14,9 @@ try
     var rewards = dataLoader.GetFromCsv<Reward>(rewardCsvPath);
     var filteredTaskContents = new TasksFilter().FilterTaskContents(taskContents, tasks);
     var jsonResult = DataGenerator.CreateRewardDictionary(filteredTaskContents.Keys.ToList(), rewards);
-    new DataGenerator().SaveJson(jsonResult, resultJsonPath);
+    new DataSaver().SaveJson(jsonResult, resultJsonPath);
 }
 catch (Exception ex)
 {
-    Console.WriteLine("Что-то пошло не так: " + ex.Message);
+    Console.WriteLine("Что-то пошло не так:\n" + ex.Message);
 }

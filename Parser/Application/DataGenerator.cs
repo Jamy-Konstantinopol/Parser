@@ -1,38 +1,19 @@
-﻿using System.Text.Json;
-
-namespace Parser
+﻿namespace Parser
 {
-    internal class DataGenerator
+    internal static class DataGenerator
     {
-        JsonSerializerOptions _options;
-
-        public DataGenerator(JsonSerializerOptions? options = null)
+        static public Dictionary<string, T> CreateRewardDictionary<T>(List<string> taskContentKey, List<T> values)
         {
-            _options = options ?? new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-        }
+            if (taskContentKey == null || values == null)
+                return new Dictionary<string, T>();
 
-        static public Dictionary<string, Reward> CreateRewardDictionary(List<string> taskContentKey, List<Reward> rewards)
-        {
-            if (taskContentKey == null || rewards == null)
-                return new Dictionary<string, Reward>();
-
-            var result = new Dictionary<string, Reward>();
-            int count = Math.Min(taskContentKey.Count, rewards.Count);
+            var result = new Dictionary<string, T>();
+            int count = Math.Min(taskContentKey.Count, values.Count);
 
             for (int i = 0; i < count; i++)
-                result[taskContentKey[i]] = rewards[i];
+                result[taskContentKey[i]] = values[i];
 
             return result;
-        }
-
-        public void SaveJson<T>(T data, string path)
-        {
-            string json = JsonSerializer.Serialize(data, _options);
-            File.WriteAllText(path, json);
         }
     }
 }
