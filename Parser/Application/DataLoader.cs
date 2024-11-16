@@ -2,6 +2,7 @@
 using CsvHelper;
 using System.Globalization;
 using System.Text.Json;
+using static Parser.DataSaver;
 
 namespace Parser
 {
@@ -10,6 +11,8 @@ namespace Parser
     /// </summary>
     internal class DataLoader
     {
+        public delegate void DataLoadedHandler(string message);
+
         private JsonSerializerOptions _options;
         private CsvConfiguration _config;
 
@@ -35,6 +38,8 @@ namespace Parser
             };
         }
 
+        public event DataLoadedHandler? DataLoadedNotify;
+
         /// <summary>
         /// Читает JSON-файл и десериализует его в словарь, где ключи — строки, а значения — объекты типа <typeparamref name="T"/>.
         /// </summary>
@@ -48,7 +53,10 @@ namespace Parser
             var data = JsonSerializer.Deserialize<Dictionary<string, T>>(jsonFile, _options);
 
             // Возвращаем десериализованный словарь или пустой словарь, если данные не были десериализованы
-            return data ?? new Dictionary<string, T>();
+            var result = data ?? new Dictionary<string, T>();
+
+            DataLoadedNotify?.Invoke($"Данные загружены: {path}");
+            return result;
         }
 
         /// <summary>
@@ -64,7 +72,9 @@ namespace Parser
             using var csv = new CsvReader(reader, _config);
 
             // Возвращаем список объектов, соответствующих строкам CSV
-            return csv.GetRecords<T>().ToList();
+            var result = csv.GetRecords<T>().ToList();
+            DataLoadedNotify?.Invoke($"Данные загружены: {path}");
+            return result;
         }
     }
 }

@@ -7,13 +7,6 @@
     internal class TasksFilter
     {
         /// <summary>
-        /// Получает или задает флаг, который определяет, должны ли быть включены задачи из <see cref="tasks"/>.
-        /// Если значение равно <c>true</c>, возвращаются задачи, которые есть в списке <see cref="tasks"/>,
-        /// если <c>false</c> — задачи, которых нет в списке <see cref="tasks"/>.
-        /// </summary>
-        public bool IncludeTasks { get; set; }
-
-        /// <summary>
         /// Инициализирует новый экземпляр фильтра задач с заданным параметром для включения или исключения задач из фильтра.
         /// </summary>
         /// <param name="includeTasks">
@@ -26,6 +19,13 @@
         {
             IncludeTasks = includeTasks;
         }
+
+        /// <summary>
+        /// Получает или задает флаг, который определяет, должны ли быть включены задачи из <see cref="tasks"/>.
+        /// Если значение равно <c>true</c>, возвращаются задачи, которые есть в списке <see cref="tasks"/>,
+        /// если <c>false</c> — задачи, которых нет в списке <see cref="tasks"/>.
+        /// </summary>
+        public bool IncludeTasks { get; set; }
 
         /// <summary>
         /// Фильтрует задачи из <see cref="taskContents"/>, возвращая только те, которые соответствуют фильтру на основе <see cref="tasks"/>.

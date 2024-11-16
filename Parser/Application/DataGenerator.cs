@@ -1,10 +1,16 @@
-﻿namespace Parser
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Parser
 {
     /// <summary>
     /// Класс для генерации данных, включая создание словаря вознаграждений, соответствующих задачам.
     /// </summary>
-    internal static class DataGenerator
+    internal class DataGenerator
     {
+        public delegate void DataGeneratedHandler(string message);
+
+        public event DataGeneratedHandler? DataGeneratedNotify;
+
         /// <summary>
         /// Создаёт словарь, в котором ключами являются идентификаторы задач, а значениями — соответствующие вознаграждения.
         /// </summary>
@@ -13,7 +19,7 @@
         /// <returns>
         /// Словарь, где ключами являются идентификаторы задач, а значениями — соответствующие вознаграждения. 
         /// </returns>
-        static public Dictionary<string, Reward> CreateRewardDictionary(Dictionary<string, TaskContent> taskContents, List<Reward> rewards)
+        public Dictionary<string, Reward> CreateRewardDictionary(Dictionary<string, TaskContent> taskContents, List<Reward> rewards)
         {
             // Проверка на null, чтобы избежать неопределенного поведения
             if (taskContents == null || rewards == null)
@@ -34,6 +40,7 @@
                     result.Add(taskContent.Key, matchedReward);
             }
 
+            DataGeneratedNotify?.Invoke($"Данные сгенерированы: RewardDictionary");
             return result;
         }
 
@@ -43,7 +50,7 @@
         /// <param name="taskDictionary">Словарь задач, где ключ — идентификатор задачи, а значение — объект <see cref="Task"/>.</param>
         /// <param name="rewardDictionary">Словарь наград задач, где ключ — идентификатор задачи, а значение — объект <see cref="Reward"/>.</param>
         /// <returns>Список объектов <see cref="TaskReward"/>.</returns>
-        static public List<TaskReward> CreateTaskRewardList(
+        public List<TaskReward> CreateTaskRewardList(
             Dictionary<string, Task> taskDictionary,
             Dictionary<string, Reward> rewardDictionary)
         {
@@ -78,6 +85,7 @@
                 }
             }
 
+            DataGeneratedNotify?.Invoke($"Данные сгенерированы: TaskRewardList");
             return result;
         }
     }

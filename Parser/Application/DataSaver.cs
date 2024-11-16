@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Parser
 {
@@ -79,7 +80,7 @@ namespace Parser
     /// </summary>
     internal class DataSaver
     {
-        public IDataSavingStrategy SavingStrategy { private get; set; }
+        public delegate void DataSavedHandler(string message);
 
         /// <summary>
         /// Конструктор класса <see cref="DataSaver"/>. 
@@ -91,6 +92,10 @@ namespace Parser
             SavingStrategy = strategy;
         }
 
+        public IDataSavingStrategy SavingStrategy { private get; set; }
+
+        public event DataSavedHandler? DataSavedNotify;
+
         /// <summary>
         /// Сохраняет данные в файл с использованием выбранной стратегии.
         /// </summary>
@@ -100,6 +105,7 @@ namespace Parser
         public void Save<T>(T data, string path) where T : IEnumerable
         {
             SavingStrategy.Save(data, path);
+            DataSavedNotify?.Invoke($"Данные сохранены: {path}");
         }
     }
 }

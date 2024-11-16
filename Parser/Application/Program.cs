@@ -9,6 +9,7 @@ string resultCsvPath = "..\\..\\..\\Data\\result.csv";
 try
 {
     var dataLoader = new DataLoader();
+    dataLoader.DataLoadedNotify += (message) => Console.WriteLine(message);
 
     // Достаем данные из task.json
     var tasks = dataLoader.LoadFromJson<Parser.Task>(taskJsonPath);
@@ -32,15 +33,19 @@ try
     //      }
     //  }
     //
-    var jsonResult = DataGenerator.CreateRewardDictionary(filteredTaskContents, rewards);
+    var dataGenerator = new DataGenerator();
+    dataGenerator.DataGeneratedNotify += (message) => Console.WriteLine(message);
+    var jsonResult = dataGenerator.CreateRewardDictionary(filteredTaskContents, rewards);
 
     // Сохраняем в новый файл result.json
     // Использовал паттерн "Стратегия"
     var dataSaver = new DataSaver(new JsonSavingStrategy());
+    dataSaver.DataSavedNotify += (message) => Console.WriteLine(message);
+
     dataSaver.Save(jsonResult, resultJsonPath);
 
     // Получаем все данные в формате list_name,object_name,reward_key,money,details,reputation,isUsed. 
-    var csvResult = DataGenerator.CreateTaskRewardList(tasks, DataGenerator.CreateRewardDictionary(taskContents, rewards));
+    var csvResult = dataGenerator.CreateTaskRewardList(tasks, dataGenerator.CreateRewardDictionary(taskContents, rewards));
     csvResult.Sort((a, b) =>
     {
         return string.Compare(a.ListName, b.ListName, StringComparison.Ordinal);
