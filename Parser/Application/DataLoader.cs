@@ -10,17 +10,17 @@ namespace Parser
     /// </summary>
     internal class DataLoader
     {
-        private JsonSerializerOptions _jsonOptions;
-        private CsvConfiguration _csvConfig;
+        private JsonSerializerOptions _options;
+        private CsvConfiguration _config;
 
-        public DataLoader(JsonSerializerOptions? jsonOptions = null, CsvConfiguration? csvConfig = null)
+        public DataLoader(JsonSerializerOptions? options = null, CsvConfiguration? config = null)
         {
-            _jsonOptions = jsonOptions ?? new JsonSerializerOptions
+            _options = options ?? new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
 
-            _csvConfig = csvConfig ?? new CsvConfiguration(CultureInfo.InvariantCulture)
+            _config = config ?? new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = false,
             };
@@ -35,7 +35,7 @@ namespace Parser
         public Dictionary<string, T> GetFromJson<T>(string path)
         {
             string jsonFile = File.ReadAllText(path);
-            var data = JsonSerializer.Deserialize<Dictionary<string, T>>(jsonFile, _jsonOptions);
+            var data = JsonSerializer.Deserialize<Dictionary<string, T>>(jsonFile, _options);
             return data ?? new Dictionary<string, T>();
         }
 
@@ -48,7 +48,7 @@ namespace Parser
         public List<T> GetFromCsv<T>(string path)
         {
             using var reader = new StreamReader(path);
-            using var csv = new CsvReader(reader, _csvConfig);
+            using var csv = new CsvReader(reader, _config);
             return csv.GetRecords<T>().ToList();
         }
     }
