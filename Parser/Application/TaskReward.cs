@@ -28,7 +28,7 @@
 
         public TaskRewardBuilder SetObjectName(string? value)
         {
-            _listName = value;
+            _objectName = value;
             return this;
         }
 
