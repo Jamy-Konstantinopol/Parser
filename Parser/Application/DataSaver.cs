@@ -4,18 +4,27 @@ using System.Text.Json;
 namespace Parser
 {
     /// <summary>
-    /// Класс для сохранения данных в форматы JSON и CSV.
+    /// Интерфейс для стратегий сохранения данных.
     /// </summary>
-    internal class DataSaver
+    public interface IDataSavingStrategy
+    {
+        /// <summary>
+        /// Сохраняет данные в файл.
+        /// </summary>
+        /// <typeparam name="T">Тип данных, которые нужно сохранить.</typeparam>
+        /// <param name="data">Данные, которые нужно сохранить.</param>
+        /// <param name="path">Путь, по которому будет сохранён файл.</param>
+        void Save<T>(T data, string path);
+    }
+
+    /// <summary>
+    /// Стратегия для сохранения данных в JSON.
+    /// </summary>
+    public class JsonSavingStrategy : IDataSavingStrategy
     {
         private JsonSerializerOptions _options;
 
-        /// <summary>
-        /// Конструктор класса <see cref="DataSaver"/>. 
-        /// Инициализирует настройки сериализации JSON.
-        /// </summary>
-        /// <param name="options">Настройки сериализации JSON. Если <c>null</c>, используются значения по умолчанию.</param>
-        public DataSaver(JsonSerializerOptions? options = null)
+        public JsonSavingStrategy(JsonSerializerOptions? options = null)
         {
             _options = options ?? new JsonSerializerOptions
             {
@@ -24,48 +33,65 @@ namespace Parser
             };
         }
 
-        /// <summary>
-        /// Сохраняет объект в JSON-файл.
-        /// </summary>
-        /// <typeparam name="T">Тип данных, который будет сериализован в JSON.</typeparam>
-        /// <param name="data">Данные, которые нужно сохранить в JSON.</param>
-        /// <param name="path">Путь, по которому будет сохранён файл JSON.</param>
-        public void SaveJson<T>(T data, string path)
+        public void Save<T>(T data, string path)
         {
-            // Сериализуем данные в JSON
             string json = JsonSerializer.Serialize(data, _options);
-            // Записываем JSON в файл
             File.WriteAllText(path, json);
+        }
+    }
+
+    /// <summary>
+    /// Стратегия для сохранения данных в CSV.
+    /// </summary>
+    public class CsvSavingStrategy : IDataSavingStrategy
+    {
+        public void Save<T>(T data, string path)
+        {
+            if (data is IEnumerable<T> enumerableData)
+            {
+                var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                if (properties == null || properties.Length == 0)
+                    return;
+
+                using (var writer = new StreamWriter(path))
+                {
+                    foreach (var item in enumerableData)
+                    {
+                        var values = properties.Select(p => p.GetValue(item)?.ToString() ?? "");
+                        writer.WriteLine(string.Join(",", values));
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Класс для сохранения данных, использующий стратегию для конкретного формата.
+    /// </summary>
+    internal class DataSaver
+    {
+        public IDataSavingStrategy SavingStrategy { private get; set; }
+
+        /// <summary>
+        /// Конструктор класса <see cref="DataSaver"/>. 
+        /// Инициализирует стратегию сохранения данных.
+        /// </summary>
+        /// <param name="strategy">Стратегия сохранения данных (например, JSON или CSV).</param>
+        public DataSaver(IDataSavingStrategy strategy)
+        {
+            SavingStrategy = strategy;
         }
 
         /// <summary>
-        /// Сохраняет данные в CSV-файл.
+        /// Сохраняет данные в файл с использованием выбранной стратегии.
         /// </summary>
-        /// <typeparam name="T">Тип данных, который будет сохранён в CSV.</typeparam>
-        /// <param name="data">Коллекция данных, которые нужно сохранить в CSV.</param>
-        /// <param name="path">Путь, по которому будет сохранён файл CSV.</param>
-        public void SaveCsv<T>(IEnumerable<T> data, string path)
+        /// <typeparam name="T">Тип данных, который будет сохранён.</typeparam>
+        /// <param name="data">Данные, которые нужно сохранить.</param>
+        /// <param name="path">Путь, по которому будет сохранён файл.</param>
+        public void Save<T>(T data, string path)
         {
-            // Получаем все публичные свойства типа T
-            var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-            // Если свойств нет, выходим из метода
-            if (properties == null || properties.Length == 0)
-                return;
-
-            // Открываем поток для записи в файл
-            using (var writer = new StreamWriter(path))
-            {
-                foreach (var item in data)
-                {
-                    // Получаем значения всех свойств элемента
-                    var values = properties.Select(p => p.GetValue(item)?.ToString() ?? "");
-
-                    // Если значения найдены, записываем их в файл, разделённые запятыми
-                    if (values != null)
-                        writer.WriteLine(string.Join(",", values));
-                }
-            }
+            SavingStrategy.Save(data, path);
         }
     }
 }

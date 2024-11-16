@@ -35,11 +35,12 @@ try
     var jsonResult = DataGenerator.CreateRewardDictionary(filteredTaskContents, rewards);
 
     // Сохраняем в новый файл result.json
-    var dataSaver = new DataSaver();
-    dataSaver.SaveJson(jsonResult, resultJsonPath);
+    // Использовал паттерн "Стратегия"
+    var dataSaver = new DataSaver(new JsonSavingStrategy());
+    dataSaver.Save(jsonResult, resultJsonPath);
 
-
-    dataSaver.SaveCsv(jsonResult, resultCsvPath);
+    dataSaver.SavingStrategy = new CsvSavingStrategy();
+    dataSaver.Save(jsonResult, resultCsvPath);
 }
 catch (Exception ex)
 {
