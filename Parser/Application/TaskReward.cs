@@ -11,6 +11,7 @@
         public bool IsUsed { get; set; }
     }
 
+    // Builder для класса TaskReward.
     internal class TaskRewardBuilder
     {
         private string? _listName = "";

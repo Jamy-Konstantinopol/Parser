@@ -59,7 +59,7 @@ namespace Parser
             // Получаем публичные свойства типа данных
             var properties = firstItem.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            if (properties == null || properties.Length == 0)
+            if (properties == null || properties.Any())
                 return;
 
             using (var writer = new StreamWriter(path))

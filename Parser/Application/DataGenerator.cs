@@ -37,35 +37,43 @@
             return result;
         }
 
+        /// <summary>
+        /// Создаёт полный список наград для задач, объединяя данные из словарей задач, содержимого задач и списка вознаграждений.
+        /// </summary>
+        /// <param name="taskDictionary">Словарь задач, где ключ — идентификатор задачи, а значение — объект <see cref="Task"/>.</param>
+        /// <param name="rewardDictionary">Словарь наград задач, где ключ — идентификатор задачи, а значение — объект <see cref="Reward"/>.</param>
+        /// <returns>Список объектов <see cref="TaskReward"/>.</returns>
         static public List<TaskReward> CreateTaskRewardList(
             Dictionary<string, Task> taskDictionary,
             Dictionary<string, Reward> rewardDictionary)
         {
             var result = new List<TaskReward>();
 
-            foreach (var rewardPair in rewardDictionary)
+            foreach (var reward in rewardDictionary)
             {
                 // Находим задачи, которые содержат текущий ключ награды.
                 var filteredTaskKeys = (from task in taskDictionary
-                                        where task.Value.List != null && task.Value.List.Contains(rewardPair.Key)
+                                        where task.Value.List != null && task.Value.List.Contains(reward.Key)
                                         select task.Key).ToList();
 
                 // Если таких задач нет, добавляем объект с IsUsed = false.
-                if (!filteredTaskKeys.Any())
+                if (filteredTaskKeys == null || !filteredTaskKeys.Any())
                 {
-                    var taskReward = new TaskRewardBuilder().SetListName("").SetObjectName(rewardPair.Key)
-                                                            .SetMoney(rewardPair.Value.Money).SetDetails(rewardPair.Value.Details)
-                                                            .SetReputation(rewardPair.Value.Reputation).SetIsUsed(false).Build();
+                    var taskReward = new TaskRewardBuilder()
+                        .SetListName("").SetObjectName(reward.Key)
+                        .SetMoney(reward.Value.Money).SetDetails(reward.Value.Details)
+                        .SetReputation(reward.Value.Reputation).SetIsUsed(false).Build();
                     result.Add(taskReward);
                     continue;
                 }
 
                 // Добавляем все связанные задачи с текущей наградой.
-                foreach (var task in filteredTaskKeys)
+                foreach (var filteredTaskKey in filteredTaskKeys)
                 {
-                    var taskReward = new TaskRewardBuilder().SetListName(task).SetObjectName(rewardPair.Key)
-                                                            .SetMoney(rewardPair.Value.Money).SetDetails(rewardPair.Value.Details)
-                                                            .SetReputation(rewardPair.Value.Reputation).SetIsUsed(true).Build();
+                    var taskReward = new TaskRewardBuilder()
+                        .SetListName(filteredTaskKey).SetObjectName(reward.Key)
+                        .SetMoney(reward.Value.Money).SetDetails(reward.Value.Details)
+                        .SetReputation(reward.Value.Reputation).SetIsUsed(true).Build();
                     result.Add(taskReward);
                 }
             }
