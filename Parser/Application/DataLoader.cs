@@ -6,7 +6,7 @@ using System.Text.Json;
 namespace Parser
 {
     /// <summary>
-    /// Дополнительная абстракция для извлечения файлов json и csv
+    /// Дополнительная абстракция для извлечения файлов json и csv.
     /// </summary>
     internal class DataLoader
     {
