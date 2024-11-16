@@ -13,6 +13,15 @@ namespace Parser
         private JsonSerializerOptions _options;
         private CsvConfiguration _config;
 
+        /// <summary>
+        /// Инициализирует новый экземпляр <see cref="DataLoader"/> с заданными параметрами для конфигурации JSON и CSV.
+        /// </summary>
+        /// <param name="options">
+        /// Опции сериализации для JSON. Если не указаны, используется стандартная конфигурация с именами свойств в стиле camelCase.
+        /// </param>
+        /// <param name="config">
+        /// Конфигурация для CSV. Если не указаны, используется стандартная конфигурация без заголовков.
+        /// </param>
         public DataLoader(JsonSerializerOptions? options = null, CsvConfiguration? config = null)
         {
             _options = options ?? new JsonSerializerOptions
@@ -34,8 +43,11 @@ namespace Parser
         /// <returns>Словарь, где ключи — строки (имена объектов из JSON), а значения — объекты типа <typeparamref name="T"/>.</returns>
         public Dictionary<string, T> GetFromJson<T>(string path)
         {
+            // Чтение данных из JSON-файла
             string jsonFile = File.ReadAllText(path);
             var data = JsonSerializer.Deserialize<Dictionary<string, T>>(jsonFile, _options);
+
+            // Возвращаем десериализованный словарь или пустой словарь, если данные не были десериализованы
             return data ?? new Dictionary<string, T>();
         }
 
@@ -47,8 +59,11 @@ namespace Parser
         /// <returns>Список объектов типа <typeparamref name="T"/>, соответствующих строкам в CSV-файле.</returns>
         public List<T> GetFromCsv<T>(string path)
         {
+            // Чтение данных из CSV-файла
             using var reader = new StreamReader(path);
             using var csv = new CsvReader(reader, _config);
+
+            // Возвращаем список объектов, соответствующих строкам CSV
             return csv.GetRecords<T>().ToList();
         }
     }
