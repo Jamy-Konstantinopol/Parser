@@ -1,5 +1,6 @@
 ﻿namespace Parser
 {
+    // Класс, объекты которого будут хранить значения из файла items.csv
     internal class Reward
     {
         public string? Name { get; set; }

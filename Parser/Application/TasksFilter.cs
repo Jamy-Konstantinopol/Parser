@@ -13,6 +13,15 @@
         /// </summary>
         public bool IncludeTasks { get; set; }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр фильтра задач с заданным параметром для включения или исключения задач из фильтра.
+        /// </summary>
+        /// <param name="includeTasks">
+        /// Булев параметр, который определяет, должны ли быть включены задачи из <see cref="tasks"/>:
+        /// если <c>true</c>, фильтруются только те задачи, которые есть в <see cref="tasks"/>; 
+        /// если <c>false</c>, фильтруются задачи, которых нет в <see cref="tasks"/>.
+        /// Значение по умолчанию — <c>true</c>.
+        /// </param>
         public TasksFilter(bool includeTasks = true)
         {
             IncludeTasks = includeTasks;

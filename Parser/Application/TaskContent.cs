@@ -1,5 +1,6 @@
 ﻿namespace Parser
 {
+    // Класс, объекты которого будут хранить значения из файла file.json
     internal class TaskContent
     {
         public int Id { get; set; }
