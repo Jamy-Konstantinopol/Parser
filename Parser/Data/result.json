@@ -1,0 +1,350 @@
+{
+  "object_6813": {
+    "name": "explorer_cosmic",
+    "money": 500,
+    "details": 10,
+    "reputation": 62
+  },
+  "object_4593": {
+    "name": "explorer_stellar",
+    "money": 300,
+    "details": 60,
+    "reputation": 60
+  },
+  "object_6516": {
+    "name": "universe_infinite",
+    "money": 900,
+    "details": 40,
+    "reputation": 4
+  },
+  "object_4864": {
+    "name": "explorer_celestial",
+    "money": 100,
+    "details": 80,
+    "reputation": 13
+  },
+  "object_1866": {
+    "name": "explorer_lunar",
+    "money": 200,
+    "details": 50,
+    "reputation": 95
+  },
+  "object_3172": {
+    "name": "explorer_galactic",
+    "money": 300,
+    "details": 40,
+    "reputation": 40
+  },
+  "object_8664": {
+    "name": "explorer_astronomical",
+    "money": 700,
+    "details": 60,
+    "reputation": 46
+  },
+  "object_2248": {
+    "name": "explorer_planetary",
+    "money": 100,
+    "details": 20,
+    "reputation": 29
+  },
+  "object_4765": {
+    "name": "planet_dark",
+    "money": 400,
+    "details": 30,
+    "reputation": 28
+  },
+  "object_8115": {
+    "name": "explorer_alien",
+    "money": 900,
+    "details": 60,
+    "reputation": 81
+  },
+  "object_3967": {
+    "name": "explorer_extraterrestrial",
+    "money": 800,
+    "details": 0,
+    "reputation": 6
+  },
+  "object_7568": {
+    "name": "explorer_meteoric",
+    "money": 100,
+    "details": 60,
+    "reputation": 27
+  },
+  "object_8981": {
+    "name": "explorer_spatial",
+    "money": 500,
+    "details": 30,
+    "reputation": 91
+  },
+  "object_2000": {
+    "name": "explorer_nebular",
+    "money": 500,
+    "details": 60,
+    "reputation": 42
+  },
+  "object_1429": {
+    "name": "spacecraft_interstellar",
+    "money": 200,
+    "details": 50,
+    "reputation": 94
+  },
+  "object_7974": {
+    "name": "cosmos_planetary",
+    "money": 600,
+    "details": 60,
+    "reputation": 70
+  },
+  "object_9092": {
+    "name": "explorer_infinite",
+    "money": 0,
+    "details": 90,
+    "reputation": 65
+  },
+  "object_1058": {
+    "name": "explorer_mystic",
+    "money": 900,
+    "details": 40,
+    "reputation": 98
+  },
+  "object_6258": {
+    "name": "explorer_ethereal",
+    "money": 300,
+    "details": 0,
+    "reputation": 16
+  },
+  "object_9733": {
+    "name": "explorer_luminous",
+    "money": 100,
+    "details": 80,
+    "reputation": 45
+  },
+  "object_1930": {
+    "name": "voyager_cosmic",
+    "money": 300,
+    "details": 50,
+    "reputation": 63
+  },
+  "object_4490": {
+    "name": "voyager_stellar",
+    "money": 600,
+    "details": 10,
+    "reputation": 36
+  },
+  "object_3660": {
+    "name": "voyager_interstellar",
+    "money": 500,
+    "details": 30,
+    "reputation": 31
+  },
+  "object_7721": {
+    "name": "constellation_mystic",
+    "money": 600,
+    "details": 80,
+    "reputation": 78
+  },
+  "object_7435": {
+    "name": "voyager_lunar",
+    "money": 500,
+    "details": 30,
+    "reputation": 32
+  },
+  "object_4720": {
+    "name": "voyager_galactic",
+    "money": 900,
+    "details": 0,
+    "reputation": 83
+  },
+  "object_8425": {
+    "name": "voyager_astronomical",
+    "money": 0,
+    "details": 10,
+    "reputation": 62
+  },
+  "object_5107": {
+    "name": "voyager_planetary",
+    "money": 800,
+    "details": 10,
+    "reputation": 57
+  },
+  "object_5766": {
+    "name": "voyager_orbital",
+    "money": 0,
+    "details": 30,
+    "reputation": 16
+  },
+  "object_8202": {
+    "name": "voyager_alien",
+    "money": 700,
+    "details": 70,
+    "reputation": 70
+  },
+  "object_3250": {
+    "name": "voyager_extraterrestrial",
+    "money": 700,
+    "details": 80,
+    "reputation": 98
+  },
+  "object_5100": {
+    "name": "voyager_meteoric",
+    "money": 300,
+    "details": 10,
+    "reputation": 73
+  },
+  "object_7939": {
+    "name": "voyager_spatial",
+    "money": 100,
+    "details": 90,
+    "reputation": 50
+  },
+  "object_3202": {
+    "name": "voyager_nebular",
+    "money": 400,
+    "details": 90,
+    "reputation": 39
+  },
+  "object_4878": {
+    "name": "voyager_dark",
+    "money": 500,
+    "details": 80,
+    "reputation": 34
+  },
+  "object_2822": {
+    "name": "voyager_radiant",
+    "money": 100,
+    "details": 0,
+    "reputation": 0
+  },
+  "object_5018": {
+    "name": "voyager_infinite",
+    "money": 300,
+    "details": 20,
+    "reputation": 39
+  },
+  "object_4211": {
+    "name": "voyager_mystic",
+    "money": 800,
+    "details": 30,
+    "reputation": 13
+  },
+  "object_8486": {
+    "name": "voyager_ethereal",
+    "money": 200,
+    "details": 10,
+    "reputation": 13
+  },
+  "object_5784": {
+    "name": "voyager_luminous",
+    "money": 200,
+    "details": 10,
+    "reputation": 68
+  },
+  "object_9950": {
+    "name": "astronaut_cosmic",
+    "money": 200,
+    "details": 10,
+    "reputation": 89
+  },
+  "object_4572": {
+    "name": "astronaut_stellar",
+    "money": 500,
+    "details": 50,
+    "reputation": 20
+  },
+  "object_2254": {
+    "name": "astronaut_interstellar",
+    "money": 100,
+    "details": 80,
+    "reputation": 21
+  },
+  "object_1818": {
+    "name": "astronaut_lunar",
+    "money": 700,
+    "details": 70,
+    "reputation": 4
+  },
+  "object_8334": {
+    "name": "astronaut_galactic",
+    "money": 600,
+    "details": 90,
+    "reputation": 49
+  },
+  "object_1204": {
+    "name": "astronaut_astronomical",
+    "money": 100,
+    "details": 0,
+    "reputation": 8
+  },
+  "object_8615": {
+    "name": "astronaut_extraterrestrial",
+    "money": 500,
+    "details": 20,
+    "reputation": 27
+  },
+  "object_1986": {
+    "name": "astronaut_orbital",
+    "money": 500,
+    "details": 20,
+    "reputation": 41
+  },
+  "object_8091": {
+    "name": "astronaut_alien",
+    "money": 600,
+    "details": 10,
+    "reputation": 74
+  },
+  "object_3981": {
+    "name": "astronaut_meteoric",
+    "money": 0,
+    "details": 70,
+    "reputation": 54
+  },
+  "object_4114": {
+    "name": "astronaut_spatial",
+    "money": 400,
+    "details": 0,
+    "reputation": 42
+  },
+  "object_2793": {
+    "name": "astronaut_nebular",
+    "money": 100,
+    "details": 20,
+    "reputation": 90
+  },
+  "object_2647": {
+    "name": "astronaut_dark",
+    "money": 500,
+    "details": 10,
+    "reputation": 40
+  },
+  "object_9253": {
+    "name": "astronaut_radiant",
+    "money": 400,
+    "details": 30,
+    "reputation": 47
+  },
+  "object_2191": {
+    "name": "astronaut_infinite",
+    "money": 100,
+    "details": 10,
+    "reputation": 92
+  },
+  "object_7269": {
+    "name": "astronaut_mystic",
+    "money": 300,
+    "details": 50,
+    "reputation": 61
+  },
+  "object_5482": {
+    "name": "nebula_radiant",
+    "money": 800,
+    "details": 80,
+    "reputation": 82
+  },
+  "object_9554": {
+    "name": "black_hole_alien",
+    "money": 900,
+    "details": 70,
+    "reputation": 51
+  }
+}
