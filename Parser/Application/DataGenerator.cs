@@ -45,33 +45,27 @@
 
             foreach (var rewardPair in rewardDictionary)
             {
-                
-
+                // Находим задачи, которые содержат текущий ключ награды.
                 var filteredTaskKeys = (from task in taskDictionary
-                                              where task.Value.List != null && task.Value.List.Contains(rewardPair.Key)
-                                              select task.Key).ToList();
+                                        where task.Value.List != null && task.Value.List.Contains(rewardPair.Key)
+                                        select task.Key).ToList();
 
-                if (filteredTaskKeys == null || filteredTaskKeys.Count == 0)
+                // Если таких задач нет, добавляем объект с IsUsed = false.
+                if (!filteredTaskKeys.Any())
                 {
-                    var taskReward = new TaskReward();
-                    taskReward.ListName = "";
-                    taskReward.ObjectName = rewardPair.Key;
-                    taskReward.Money = rewardPair.Value.Money;
-                    taskReward.Details = rewardPair.Value.Details;
-                    taskReward.Reputation = rewardPair.Value.Reputation;
-                    taskReward.IsUsed = false;
+                    var taskReward = new TaskRewardBuilder().SetListName("").SetObjectName(rewardPair.Key)
+                                                            .SetMoney(rewardPair.Value.Money).SetDetails(rewardPair.Value.Details)
+                                                            .SetReputation(rewardPair.Value.Reputation).SetIsUsed(false).Build();
+                    result.Add(taskReward);
                     continue;
                 }
 
+                // Добавляем все связанные задачи с текущей наградой.
                 foreach (var task in filteredTaskKeys)
                 {
-                    var taskReward = new TaskReward();
-                    taskReward.ListName = task;
-                    taskReward.ObjectName = rewardPair.Key;
-                    taskReward.Money = rewardPair.Value.Money;
-                    taskReward.Details = rewardPair.Value.Details;
-                    taskReward.Reputation = rewardPair.Value.Reputation;
-                    taskReward.IsUsed = true;
+                    var taskReward = new TaskRewardBuilder().SetListName(task).SetObjectName(rewardPair.Key)
+                                                            .SetMoney(rewardPair.Value.Money).SetDetails(rewardPair.Value.Details)
+                                                            .SetReputation(rewardPair.Value.Reputation).SetIsUsed(true).Build();
                     result.Add(taskReward);
                 }
             }
