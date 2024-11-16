@@ -2,16 +2,22 @@
 {
     internal static class DataGenerator
     {
-        static public Dictionary<string, T> CreateRewardDictionary<T>(List<string> taskContentKey, List<T> values)
+        static public Dictionary<string, Reward> CreateRewardDictionary(Dictionary<string, TaskContent> taskContents, List<Reward> rewards)
         {
-            if (taskContentKey == null || values == null)
-                return new Dictionary<string, T>();
+            if (taskContents == null || rewards == null)
+                return new Dictionary<string, Reward>();
 
-            var result = new Dictionary<string, T>();
-            int count = Math.Min(taskContentKey.Count, values.Count);
+            var result = new Dictionary<string, Reward>();
 
-            for (int i = 0; i < count; i++)
-                result[taskContentKey[i]] = values[i];
+            foreach (var taskContent in taskContents)
+            {
+                var matchedReward = (from reward in rewards
+                                     where reward.Name == taskContent.Value.Reward
+                                     select reward).FirstOrDefault();
+
+                if (matchedReward != null)
+                    result.Add(taskContent.Key, matchedReward);
+            }
 
             return result;
         }
