@@ -38,7 +38,6 @@ try
     var jsonResult = dataGenerator.CreateRewardDictionary(filteredTaskContents, rewards);
 
     // Сохраняем в новый файл result.json
-    // Использовал паттерн "Стратегия"
     var dataSaver = new DataSaver(new JsonSavingStrategy());
     dataSaver.DataSavedNotify += (message) => Console.WriteLine(message);
 
